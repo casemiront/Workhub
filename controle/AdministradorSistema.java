@@ -21,7 +21,7 @@ public class AdministradorSistema {
         this.repositorioReservas = new RepositorioReservas();
         // Inicializa o próximo ID de reserva com base nas reservas existentes
         if (!repositorioReservas.getReservas().isEmpty()) {
-            this.proximoIdReserva = repositorioReservos.getReservas().keySet().stream().max(Integer::compare).get() + 1;
+            this.proximoIdReserva = repositorioReservas.getReservas().keySet().stream().max(Integer::compare).get() + 1;
         }
     }
 
@@ -150,4 +150,5 @@ public class AdministradorSistema {
         // Este método pode ser usado para um carregamento manual se necessário
     }
 }
+
 
