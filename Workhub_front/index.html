@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkHub - Sistema de Coworking</title>
+    <!-- CORRETO -->
+    <link rel="stylesheet" href="main.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-building"></i>
+                        <span>WorkHub</span>
+                    </div>
+                    <nav class="nav">
+                        <a href="#" class="nav-link active" data-page="dashboard">
+                            <i class="fas fa-home"></i>
+                            Dashboard
+                        </a>
+                        <a href="#" class="nav-link" data-page="clientes">
+                            <i class="fas fa-users"></i>
+                            Clientes
+                        </a>
+                        <a href="#" class="nav-link" data-page="espacos">
+                            <i class="fas fa-building"></i>
+                            Espaços
+                        </a>
+                        <a href="#" class="nav-link" data-page="reservas">
+                            <i class="fas fa-calendar"></i>
+                            Reservas
+                        </a>
+                        <a href="#" class="nav-link" data-page="relatorios">
+                            <i class="fas fa-chart-bar"></i>
+                            Relatórios
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Dashboard Page -->
+                <div id="dashboard-page" class="page active">
+                    <div class="page-header">
+                        <h1>Dashboard</h1>
+                        <p>Visão geral do sistema WorkHub</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-clientes">0</h3>
+                                <p>Clientes Cadastrados</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-espacos">0</h3>
+                                <p>Espaços Disponíveis</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="total-reservas">0</h3>
+                                <p>Reservas Ativas</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="faturamento-total">R$ 0,00</h3>
+                                <p>Faturamento Total</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-content">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Reservas Recentes</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="reservas-recentes" class="table-container">
+                                    <p class="empty-state">Nenhuma reserva encontrada</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clientes Page -->
+                <div id="clientes-page" class="page">
+                    <div class="page-header">
+                        <h1>Gerenciar Clientes</h1>
+                        <button class="btn btn-primary" onclick="showModal('cliente-modal')">
+                            <i class="fas fa-plus"></i>
+                            Novo Cliente
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Lista de Clientes</h3>
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="search-clientes" placeholder="Buscar por nome ou CPF...">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="clientes-table" class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>CPF</th>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Telefone</th>
+                                            <th>Data Cadastro</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientes-tbody">
+                                        <!-- Dados serão inseridos via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Espaços Page -->
+                <div id="espacos-page" class="page">
+                    <div class="page-header">
+                        <h1>Gerenciar Espaços</h1>
+                        <button class="btn btn-primary" onclick="showModal('espaco-modal')">
+                            <i class="fas fa-plus"></i>
+                            Novo Espaço
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Lista de Espaços</h3>
+                            <div class="filter-group">
+                                <select id="filter-tipo-espaco">
+                                    <option value="">Todos os tipos</option>
+                                    <option value="ESTACAO_TRABALHO">Estação de Trabalho</option>
+                                    <option value="SALA_PRIVADA">Sala Privada</option>
+                                    <option value="SALA_REUNIAO">Sala de Reunião</option>
+                                    <option value="AUDITORIO">Auditório</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="espacos-grid" class="espacos-grid">
+                                <!-- Espaços serão inseridos via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservas Page -->
+                <div id="reservas-page" class="page">
+                    <div class="page-header">
+                        <h1>Gerenciar Reservas</h1>
+                        <button class="btn btn-primary" onclick="showModal('reserva-modal')">
+                            <i class="fas fa-plus"></i>
+                            Nova Reserva
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Lista de Reservas</h3>
+                            <div class="filter-group">
+                                <input type="date" id="filter-data-reserva">
+                                <select id="filter-status-reserva">
+                                    <option value="">Todos os status</option>
+                                    <option value="ativa">Ativa</option>
+                                    <option value="cancelada">Cancelada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="reservas-table" class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Cliente</th>
+                                            <th>Espaço</th>
+                                            <th>Data</th>
+                                            <th>Horário</th>
+                                            <th>Valor Total</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reservas-tbody">
+                                        <!-- Dados serão inseridos via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relatórios Page -->
+                <div id="relatorios-page" class="page">
+                    <div class="page-header">
+                        <h1>Relatórios</h1>
+                        <p>Análises e estatísticas do sistema</p>
+                    </div>
+                    
+                    <div class="relatorios-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Utilização de Espaços</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="utilizacao-chart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Faturamento por Espaço</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="faturamento-espacos" class="chart-container">
+                                    <!-- Dados serão inseridos via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Serviços Adicionais</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="servicos-chart" class="chart-container">
+                                    <!-- Dados serão inseridos via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Modal Cliente -->
+    <div id="cliente-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cadastrar Cliente</h3>
+                <button class="modal-close" onclick="hideModal('cliente-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="cliente-form" class="modal-body">
+                <div class="form-group">
+                    <label for="cliente-cpf">CPF</label>
+                    <input type="text" id="cliente-cpf" name="cpf" required maxlength="14" placeholder="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label for="cliente-nome">Nome</label>
+                    <input type="text" id="cliente-nome" name="nome" required placeholder="Nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="cliente-email">Email</label>
+                    <input type="email" id="cliente-email" name="email" required placeholder="email@exemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="cliente-telefone">Telefone</label>
+                    <input type="text" id="cliente-telefone" name="telefone" required placeholder="(00) 00000-0000">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('cliente-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Espaço -->
+    <div id="espaco-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cadastrar Espaço</h3>
+                <button class="modal-close" onclick="hideModal('espaco-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="espaco-form" class="modal-body">
+                <div class="form-group">
+                    <label for="espaco-id">ID do Espaço</label>
+                    <input type="text" id="espaco-id" name="id" required placeholder="Ex: EST001">
+                </div>
+                <div class="form-group">
+                    <label for="espaco-nome">Nome/Descrição</label>
+                    <input type="text" id="espaco-nome" name="nome" required placeholder="Nome do espaço">
+                </div>
+                <div class="form-group">
+                    <label for="espaco-tipo">Tipo de Espaço</label>
+                    <select id="espaco-tipo" name="tipo" required>
+                        <option value="">Selecione o tipo</option>
+                        <option value="ESTACAO_TRABALHO">Estação de Trabalho</option>
+                        <option value="SALA_PRIVADA">Sala Privada</option>
+                        <option value="SALA_REUNIAO">Sala de Reunião</option>
+                        <option value="AUDITORIO">Auditório</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="espaco-valor">Valor por Hora (R$)</label>
+                    <input type="number" id="espaco-valor" name="valorHora" required min="0" step="0.01" placeholder="0.00">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('espaco-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Reserva -->
+    <div id="reserva-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Nova Reserva</h3>
+                <button class="modal-close" onclick="hideModal('reserva-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="reserva-form" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reserva-cliente">Cliente</label>
+                        <select id="reserva-cliente" name="cpfCliente" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reserva-espaco">Espaço</label>
+                        <select id="reserva-espaco" name="idEspaco" required>
+                            <option value="">Selecione um espaço</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reserva-data">Data da Reserva</label>
+                        <input type="date" id="reserva-data" name="dataReserva" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reserva-inicio">Hora Início</label>
+                        <input type="time" id="reserva-inicio" name="horaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reserva-fim">Hora Fim</label>
+                        <input type="time" id="reserva-fim" name="horaFim" required>
+                    </div>
+                </div>
+                
+                <div class="servicos-section">
+                    <h4>Serviços Adicionais</h4>
+                    <div class="servicos-grid">
+                        <div class="servico-item">
+                            <input type="checkbox" id="servico-cafe" name="servicos" value="CAFE_PREMIUM">
+                            <label for="servico-cafe">
+                                <i class="fas fa-coffee"></i>
+                                Café Premium (R$ 5,00)
+                            </label>
+                        </div>
+                        <div class="servico-item">
+                            <input type="checkbox" id="servico-locker" name="servicos" value="LOCKER">
+                            <label for="servico-locker">
+                                <i class="fas fa-lock"></i>
+                                Locker
+                            </label>
+                            <input type="number" id="locker-quantidade" placeholder="Qtd" min="1" class="servico-input">
+                        </div>
+                        <div class="servico-item">
+                            <input type="checkbox" id="servico-estacionamento" name="servicos" value="ESTACIONAMENTO">
+                            <label for="servico-estacionamento">
+                                <i class="fas fa-car"></i>
+                                Estacionamento
+                            </label>
+                            <input type="number" id="estacionamento-horas" placeholder="Horas" min="1" class="servico-input">
+                        </div>
+                        <div class="servico-item">
+                            <input type="checkbox" id="servico-correspondencia" name="servicos" value="RECEBIMENTO_CORRESPONDENCIA">
+                            <label for="servico-correspondencia">
+                                <i class="fas fa-envelope"></i>
+                                Recebimento de Correspondência (R$ 15,00)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="valor-total">
+                    <h4>Valor Total: <span id="valor-total-reserva">R$ 0,00</span></h4>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('reserva-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
