@@ -1,9 +1,9 @@
 package excecoes;
 
-public class ClienteJaCadastradoException extends Exception {
+public class EspacoIndisponivelException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public ClienteJaCadastradoException(String message) {
+    public EspacoIndisponivelException(String message) {
         super(message);
     }
 }
